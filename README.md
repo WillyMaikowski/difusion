@@ -14,7 +14,7 @@ Admin:
 - Asignar monitores a cierta actividad
 - Reasignar monitores tras solicitud de parte del asignado
 - Ver estadísticas de horas y honorarios de cada monitor histórico y del mes en curso
-- 
+
 
 Monitor:
 - Ver las actividades publicadas
@@ -23,7 +23,7 @@ Monitor:
 - Modificación de sus datos (si quiere diff con los de u-pasaporte?)
 - Solicitar renunciar a una actividad asignada
 - Llenar ficha tras completar una actividad
-- 
+
 
 
 -------------------------------------
