@@ -1,13 +1,18 @@
 # Difusion
 
-La idea es hacer un sistema para:
-1) la asignación de actividades a los monitores
-2) llenado de ficha tras las actividades por parte de los monitores
-3) el cálculo de honorarios para cada monitor según sus actividades/horas mensualess
-4) la publicación fácil de nuevas actividades
-5) automatización de envío de avisos para nuevas actividades, actividades asignadas y recordatorio pre-actividad.
+##Idea
 
-Requisitos:
+La idea es hacer un sistema para:
+
+1. La asignación de actividades a los monitores.
+2. Llenado de ficha tras las actividades por parte de los monitores.
+3. El cálculo de honorarios para cada monitor según sus actividades/horas mensualess.
+4. La publicación fácil de nuevas actividades.
+5. Automatización de envío de avisos para nuevas actividades, actividades asignadas y recordatorio pre-actividad.
+
+
+##Requisitos
+
 Admin:
 - Publicar nuevas actividades y dar tiempo de postulación
 - Extender tiempo de postulación
@@ -25,24 +30,51 @@ Monitor:
 - Llenar ficha tras completar una actividad
 
 
+##Estructura BD
 
--------------------------------------
+###Monitores
 
+| Nombre | Tipo | Propiedad |
+| ------ | ---- | --------- |
+| MON_ID | intval | PK | 
+| MON_NOMBRE | varchar | not null] |
+| MON_RUT | varchar | not null |
+| MON_EMAIL | varchar | not null | 
+| MON_TELEFONO | int |  | 
+| MON_COLEGIO_ORIGEN | varchar | not null | 
+| MON_COLEGIO_TIPO | varchar(t_colegio) | not null |
 
-Estructura BD:
+###Actividades
 
-Monitores 
-(id [int pk], nombre [varchar not null], RUT [varchar not null], email [varchar not null], teléfono [int?], colegio_origen [varchar not null], tipo_colegio_origen[varchar(tipo_colegio) not null])
+| Nombre | Tipo | Propiedad |
+| ------ | ---- | --------- |
+| ACT_ID  | intval | PK | 
+| ACT_NOMBRE | varchar | not null | 
+| ACT_HORA_INI | datetime | not null |
+| ACT_HORA_FIN | datetime | not null | 
+| ACT_T_ACT_ID | varchar(t_actividad) | not null |
 
-Actividades 
-(id [int pk], nombre [varchar not null], hora_inicio [datetime not null], hora_fin [datetime not null], id_tipo_actividad [varchar(tipo_actividad) not null])
+###Asignación 
 
-Asignación 
-(id [int pk], id_actividad [int not null], id_monitor [int not null], activo [bool not null])
+| Nombre | Tipo | Propiedad |
+| ------ | ---- | --------- |
+| ASI_ID | intval | PK | 
+| ASI_ACT_ID | intval | not null | 
+| ASI_MON_ID | intval | not null | 
+| ASI_ESTADO | bool/intval(activo?) | not null |
 
-Ficha 
-(id [int pk], id_asignacion[int not null], comentarios [varchar], n_horas [int not null], pagado [bool not null])
+###Ficha 
 
+| Nombre | Tipo | Propiedad |
+| ------ | ---- | --------- |
+| FIC_ID  | intval | PK | 
+| FIC_ASI_ID | intval | not null | 
+| FIC_COMENTARIOS | varchar |  |
+| FIC_HORAS | intval | not null | 
+| FIC_ESTADO | bool/intval(pagado?) | not null |
 
-tipo_colegio: municipal, subvencionado, particular
-tipo_actividad: (id, tipo, pago/H) -> tipos: feria, visita, administrativa. 
+###Codeados (?)
+
+**t_colegio:** municipal, subvencionado, particular.
+
+**t_actividad:** (id, tipo, pago/H) -> tipos: feria, visita, administrativa. 
