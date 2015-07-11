@@ -25,7 +25,6 @@ Monitor:
 - Ver las actividades publicadas
 - Postular a una actividad 
 - Visor de actividades asignadas; auto-envío de recordatorio el día anterior
-- Modificación de sus datos (si quiere diff con los de u-pasaporte?)
 - Solicitar renunciar a una actividad asignada
 - Llenar ficha tras completar una actividad
 
@@ -43,38 +42,34 @@ Monitor:
 | MON_TELEFONO | int |  | 
 | MON_COLEGIO_ORIGEN | varchar | not null | 
 | MON_COLEGIO_TIPO | varchar(t_colegio) | not null |
+| MON_ESTADO | bool/intval(admin?) | |
 
 ###Actividades
 
 | Nombre | Tipo | Propiedad |
 | ------ | ---- | --------- |
 | ACT_ID  | intval | PK | 
+| ACT_MON_ID  | intval | FK / 0 | 
 | ACT_NOMBRE | varchar | not null | 
 | ACT_HORA_INI | datetime | not null |
-| ACT_HORA_FIN | datetime | not null | 
+| ACT_HORA_FIN | datetime | not null |
+| ACT_FECHA_FIN | datetime | not null |
 | ACT_T_ACT_ID | varchar(t_actividad) | not null |
+| ACT_COMENTARIOS | text | |
+| ACT_HORAS_EFECT | intval | |
+| ACT_ESTADO | bool/intval(activo?,renuncia?) | not null |
 
-###Asignación 
-
-| Nombre | Tipo | Propiedad |
-| ------ | ---- | --------- |
-| ASI_ID | intval | PK | 
-| ASI_ACT_ID | intval | not null | 
-| ASI_MON_ID | intval | not null | 
-| ASI_ESTADO | bool/intval(activo?) | not null |
-
-###Ficha 
+###Tipo de Actividad
 
 | Nombre | Tipo | Propiedad |
 | ------ | ---- | --------- |
-| FIC_ID  | intval | PK | 
-| FIC_ASI_ID | intval | not null | 
-| FIC_COMENTARIOS | varchar |  |
-| FIC_HORAS | intval | not null | 
-| FIC_ESTADO | bool/intval(pagado?) | not null |
+| T_ACT_ID  | intval | PK | 
+| T_ACT_NOMBRE | varchar | not null | 
+| T_ACT_PAGO | intval |  |
+| T_ACT_ESTADO | intval(activo?) | |
+
+**t_actividad...** tipos: feria, visita, administrativa. 
 
 ###Codeados (?)
 
-**t_colegio:** municipal, subvencionado, particular.
-
-**t_actividad:** (id, tipo, pago/H) -> tipos: feria, visita, administrativa. 
+**t_colegio:** municipal, subvencionado, particular

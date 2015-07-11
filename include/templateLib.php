@@ -1,4 +1,5 @@
 <?php
+define( 'DB', 1 );
 
 function template( $file ) {
   if( ! is_file( $file ) ) halting_error( 'template no encontrado ( '.$file.' )' );
@@ -27,8 +28,11 @@ function template( $file ) {
   return $comp;
 }
 
-function halting_error( $msg ) {
-  /* Pagina que muestra mensahe de error */
+function halting_error( $msg, $tipo = 0 ) {
+	/* Pagina que muestra mensahe de error */
+	if( $tipo == DB ) {
+		//log
+	}
   return $msg;
 }
 
