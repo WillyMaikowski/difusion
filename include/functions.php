@@ -13,13 +13,9 @@ where ACT_ESTADO > 0
 	if( $activas ) $sql .= "and ACT_FECHA_FIN > ".time()." ";
 	
 	$res = $link->query( $sql );
-	if( $link->isError() ) {
-		halting_error( 'getActividades -> sql: '.$sql, DB );
-		exit;
-	}
 
 	$r = array(); $mons = array();
-	while( $row = $res->fetchAssoc() ) {
+	while( $row = $res->fetch() ) {
 		$r[$row['id']] = $row;
 		$mons[$row['mon_id']] = 1;
 	}
@@ -43,13 +39,9 @@ where MON_ESTADO > $estado
 	if( $ids ) $sql .= "and MON_ID in ( ".implode( ', ', $ids )." )";
 
 	$res = $link->query( $sql );
-	if( $link->isError() ) {
-		halting_error( 'getMonitores -> sql: '.$sql, DB );
-		exit;
-	}
 
 	$r = array();
-	while( $row = $res->fetchAssoc() ) {
+	while( $row = $res->fetch() ) {
 		$r[$row['id']] = $row;
 	}
 

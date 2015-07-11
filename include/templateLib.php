@@ -29,11 +29,12 @@ function template( $file ) {
 }
 
 function halting_error( $msg, $tipo = 0 ) {
-	/* Pagina que muestra mensahe de error */
+	/* Pagina que muestra mensaje de error */
 	if( $tipo == DB ) {
 		//log
 	}
-  return $msg;
+	echo $msg;
+	exit;
 }
 
 function print_a() {
@@ -42,3 +43,8 @@ function print_a() {
   echo '</pre></div>';
 }
 
+function getParametros( $section ) {
+	require( '../.parametros.php' );
+	if( isset( $data[$section] ) ) return $data[$section];
+	else halting_error( 'El parametro no existe' );
+}
