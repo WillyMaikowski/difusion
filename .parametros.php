@@ -5,5 +5,6 @@ $data['difusion'] = array(
 	'type' => 'mysql',
 	'name' => 'DIFUSION',
 	'user' => '',
-	'pass' => ''
+	'pass' => '',
+	'charset' => 'utf8'
 );

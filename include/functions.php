@@ -1,7 +1,7 @@
 <?php
 
 function getActividades( $mon_id = 0, $activas = false ) {
-	$link = db( 'difusion' );
+	$link = new db( 'difusion' );
 	$mon_id = intval( $mon_id );
 
 	$sql = "
@@ -27,7 +27,7 @@ where ACT_ESTADO > 0
 }
 
 function getMonitores( $mon_ids = array(), $todos = FALSE ) {
-	$link = db( 'difusion' );
+	$link = new db( 'difusion' );
 	$ids = is_array( $mon_ids ) ? array_map( 'intval', $mon_ids ) : array( intval( $mon_ids ) );
 	$estado = $todos ? -1 : 0;
 
@@ -49,11 +49,11 @@ where MON_ESTADO > $estado
 }
 
 function getTiposActividad() {
-	$link = db( 'difusion' );
+	$link = new db( 'difusion' );
 
 	$sql = "
 select T_ACT_ID id, T_ACT_NOMBRE nombre, T_ACT_PAGO pago, T_ACT_ESTADO estado
-from TIPO_ACTIVIDAD
+from T_ACTIVIDAD
 ";
 	
 	$res = $link->query( $sql );
