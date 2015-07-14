@@ -1,2 +1,8 @@
-{print_a( $actividades );}
-{print_a( $t_actividad );}
+<h1>Actividades</h1>
+{print_a( $actividades )}
+<h3>Monitores por Actividad</h3>
+<!-- foreach( $actividades as $k => $v ) { -->
+	{print_a( $mon_act[$k] )}
+<!-- } -->
+<h3>Tipos de Actividad</h3>
+{print_a( $t_actividad )}

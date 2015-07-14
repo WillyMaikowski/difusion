@@ -1,27 +1,71 @@
 <?php
 
+function getActividadesAsignadas( $monitores ) {
+	$link = new db( 'difusion' );
+	$ids = is_array( $monitores ) ? array_map( 'intval', $monitores ) : array( intval( $monitores ) );
+	if( ! $ids ) return array();
+
+	$sql = "
+select ASI_ID id, ASI_MON_ID mon_id, ASI_ACT_ID act_id, ASI_FECHA_M fecha_m, ASI_FECHA_C fecha_c , ASI_ESTADO estado
+from ASIGNACIONES
+where ASI_MON_ID in ( ".implode( ', ', $ids )." )
+and ASI_ESTADO > 0
+";
+
+	$res = $link->query( $sql );
+	$r = array();
+	while( $row = $res->fetch() ) {
+		$r[$row['mon_id']][$row['id']] = $row;
+	}
+	
+	return $r;
+}
+
+function getMonitoresAsignados( $actividades ) {
+	$link = new db( 'difusion' );
+	$ids = is_array( $actividades ) ? array_map( 'intval', $actividades ) : array( intval( $actividades ) );
+	if( ! $ids ) return array();
+
+	$sql = "
+select ASI_ID id, ASI_MON_ID mon_id, ASI_ACT_ID act_id, ASI_FECHA_M fecha_m, ASI_FECHA_C fecha_c , ASI_ESTADO estado
+from ASIGNACIONES
+where ASI_ACT_ID in ( ".implode( ', ', $ids )." )
+and ASI_ESTADO > 0
+";
+
+	$res = $link->query( $sql );
+	$r = array();
+	while( $row = $res->fetch() ) {
+		$r[$row['act_id']][$row['id']] = $row;
+	}
+
+	return $r;
+}
+
 function getActividades( $mon_id = 0, $activas = false ) {
 	$link = new db( 'difusion' );
 	$mon_id = intval( $mon_id );
+	$actividades = getActividadesAsignadas( $mon_id );
 
 	$sql = "
-select ACT_ID id, ACT_MON_ID mon_id, ACT_NOMBRE nombre, ACT_HORA_INI ini, ACT_HORA_FIN fin, ACT_FECHA_FIN fecha_fin, ACT_T_ACT_ID tipo, ACT_COMENTARIOS comentarios, ACT_HORAS_EFECT horas, ACT_ESTADO estado
+select ACT_ID id, ACT_NOMBRE nombre, ACT_HORA_INI ini, ACT_HORA_FIN fin, ACT_FECHA_FIN fecha_fin, ACT_T_ACT_ID tipo, ACT_COMENTARIOS comentarios, ACT_HORAS_EFECT horas, ACT_FECHA_M fecha_m, ACT_FECHA_C fecha_c, ACT_ESTADO estado
 from ACTIVIDADES
 where ACT_ESTADO > 0
 ";
-	if( $mon_id ) $sql .= "and ACT_MON_ID = $mon_id ";
+
 	if( $activas ) $sql .= "and ACT_FECHA_FIN > ".time()." ";
+	if( $actividades ) {
+		$aux = array();
+		foreach( $actividades as $a ) $aux = array_merge( $aux, array_column( $a, 'act_id' ) );
+		if( $aux ) $sql .= "and ACT_ID in ( ".implode( ', ', $aux )." )";
+	}
 	
 	$res = $link->query( $sql );
 
-	$r = array(); $mons = array();
+	$r = array();
 	while( $row = $res->fetch() ) {
 		$r[$row['id']] = $row;
-		$mons[$row['mon_id']] = 1;
 	}
-
-	$mons = getMonitores( array_keys( $mons ), TRUE );
-	foreach( $r as $k => $v ) $r[$k]['monitor'] = $mons[$v['mon_id']];	
 
 	return $r;
 }

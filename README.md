@@ -49,7 +49,6 @@ Monitor:
 | Nombre | Tipo | Propiedad |
 | ------ | ---- | --------- |
 | ACT_ID  | intval | PK | 
-| ACT_MON_ID  | intval | FK / 0 | 
 | ACT_NOMBRE | varchar | not null | 
 | ACT_HORA_INI | datetime | not null |
 | ACT_HORA_FIN | datetime | not null |
@@ -57,7 +56,20 @@ Monitor:
 | ACT_T_ACT_ID | varchar(t_actividad) | not null |
 | ACT_COMENTARIOS | text | |
 | ACT_HORAS_EFECT | intval | |
-| ACT_ESTADO | bool/intval(activo?,renuncia?) | not null |
+| ACT_FECHA_M | datetime | not null |
+| ACT_FECHA_C | datetime | not null |
+| ACT_ESTADO | bool/intval(activo?) | not null |
+
+###Asignación
+
+| Nombre | Tipo | Propiedad |
+| ------ | ---- | --------- |
+| ASI_ID  | intval | PK |
+| ASI_MON_ID | intval | FK |
+| ASI_ACT_ID | intval | FK |
+| ASI_FECHA_M | datetime | not null |
+| ASI_FECHA_C | datetime | not null |
+| ASI_ESTADO | intval(renuncia?) | not null |
 
 ###Tipo de Actividad
 
